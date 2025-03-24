@@ -6,14 +6,16 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 // Routers
-import {healthRouter} from "./routes/health.js";
+import {bathroomRouter} from "./routes/bathroom.js";
+import {userRouter} from "./routes/user.js";
+import {locationRouter} from "./routes/location.js";
 
 dotenv.config();
 // console.log(process.env.MONGODB_URI);
 
 //connect to MongoDB
 await mongoose
-.connect(process.env.MONGODB_URI)
+.connect(process.env.MONGODB_URI, { autoIndex: false })  //// what is autoindex? it was in A's example -- is that needed?
 .then(() => console.log("Connected to MONGODB"))
 .catch((e) => console.error(e))
 
@@ -36,16 +38,19 @@ app.use(cors());
 //Routes ----> url
 // you can only send 1 response
 app.get("/", (req, res) => {
-// res.send("ok")
-// res.json({"data": "hello"})
+// res.send("ok")    /// can delete this line
+// res.json({"data": "hello"})   /// can delete this line
 res.render("index")
 })
 
 // API routes
-app.use("/api/health", healthRouter)
+app.use("/api/bathroom", bathroomRouter)
+app.use("/api/user", userRouter)
+app.use("/api/location", locationRouter)
 
 //ADD global error request handler -- always has 4 parameters
 // underscore before the wordreq is showing that we're not using that. you can keep it or leave it out
+// Global error handling
 app.use((err, _req, res, next) => {
     console.error(err);
     res.status(500).send("Seems like we messed up somewhere...");
