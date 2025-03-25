@@ -1,4 +1,6 @@
+// Adding a bathroom 
 import mongoose from "mongoose";
+import {commentSchema} from "./Comment.js"
 
 const bathroomSchema = new mongoose.Schema(
   {
@@ -8,29 +10,23 @@ const bathroomSchema = new mongoose.Schema(
     address: {
       type: String,
       required: true,
-      unique: true,
+      unique: true, // unique will make an index too
     },
     type: {
-        type: String, 
-        enum: ["men", "women", "unisex", "family bathroom", "handicap accessible", "has changing station"], ////////////// unsure if this is correct - it should be an array of strings so the user can search to see if these things exist
-        // required: true, ///////////////////// unsure if it should be required
+        type: [String], 
+        enum: ["men", "women", "unisex", "family bathroom", "handicap accessible", "has changing station"], 
+        required: true, 
     },
     timeOpen: {
-        type: String, /////////// is time a string???
-        // required: true, ///////////////////// unsure if it should be required
+        type: String, // time range
+        default: ""
     },
+    comments: [commentSchema], // inserts comment array
+    
   },
   {
     timestamps: true,
   },
 );
-
-// if the field is marked as "unique: true" 
-// we don't need to create and index:
-//  https://mongoosejs.com/docs/guide.html#indexes
-// userSchema.index({username: 1});
-// userSchema.index({email: 1});
-
-
 
 export default mongoose.model("Bathroom", bathroomSchema);

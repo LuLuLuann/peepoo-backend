@@ -1,5 +1,7 @@
 /////////////// what should this schema be for if I will get info from google maps api or from bathroom api??? is this for favorite locations only???
 
+//maybe for scaling later -- not using right now
+
 import mongoose from "mongoose";
 
 const locationSchema = new mongoose.Schema(

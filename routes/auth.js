@@ -1,7 +1,6 @@
 // auth.js route (route to sign in a user)
 
-
-// import express from "express";
+import express from "express";
 import User from "../models/User.js";
 
 const authRouter = express.Router();
@@ -11,7 +10,7 @@ const authRouter = express.Router();
  * params {email, password}
  */
 authRouter.post("/", async (req, res) => {
-  const dbUser = User.findOne({ email: req.params.email });
+  const dbUser = User.findOne({ email: req.params.email }); // search to see if their is a user with that name
 
   if (!dbUser) {
     return res.status(404).send("user not found");
@@ -24,4 +23,4 @@ authRouter.post("/", async (req, res) => {
   res.json(dbUser);
 });
 
-// export default authRouter;   ///////////////// is this needed for auth? 
+export default authRouter;

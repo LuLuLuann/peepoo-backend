@@ -4,35 +4,31 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      unique: true,
+      unique: true, // creates an index
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true, // creates an index
     },
     password: {
       type: String,
       required: true,
     },
     homeLocation: {
-        type: String,
-      },
-      favoriteBathrooms: {
-        type: [],     ///// not sure if this is correct or needed in the schema -- it will show an array of strings based on which ones they favorite in the app
-      },
+      type: String,
+      default: ""
+    },
+    favoriteBathrooms: {
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bathroom" // keeps track of bathroom ids so we can populate it without replicating the data
+      }],     ///// it will show an array of strings based on which ones they favorite in the app
+    },
   },
   {
     timestamps: true,
   },
 );
-
-// if the field is marked as "unique: true" 
-// we don't need to create and index:
-//  https://mongoosejs.com/docs/guide.html#indexes
-// userSchema.index({username: 1});
-// userSchema.index({email: 1});
-
-
 
 export default mongoose.model("User", userSchema);
